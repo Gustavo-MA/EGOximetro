@@ -1,0 +1,171 @@
+[
+    {
+        "id": "3499b669ec67eaa8",
+        "type": "tab",
+        "label": "RitCard+Oximetro",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "08f40b660ba88a56",
+        "type": "mqtt in",
+        "z": "3499b669ec67eaa8",
+        "name": "",
+        "topic": "codigoIoT/detectorSintomas/flow",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "bcd3ae9b12fd9abf",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "1dd55d237f053401",
+                "b37f66c21bc19b1b"
+            ]
+        ]
+    },
+    {
+        "id": "e8b86363d01066c8",
+        "type": "ui_gauge",
+        "z": "3499b669ec67eaa8",
+        "name": "",
+        "group": "8676cd60bc24459c",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "gtype": "gage",
+        "title": "Ritmo Cardiaco",
+        "label": "BPM",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "120",
+        "colors": [
+            "#cc0000",
+            "#00b500",
+            "#a40000"
+        ],
+        "seg1": "60",
+        "seg2": "85",
+        "className": "",
+        "x": 860,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "1dd55d237f053401",
+        "type": "function",
+        "z": "3499b669ec67eaa8",
+        "name": "Detector HR",
+        "func": "if (msg.payload.hrv == 1) {\n    msg.payload = msg.payload.hr;\n    global.set (\"hr\", msg.payload);\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "e8b86363d01066c8"
+            ]
+        ]
+    },
+    {
+        "id": "b37f66c21bc19b1b",
+        "type": "function",
+        "z": "3499b669ec67eaa8",
+        "name": "Detector SPO2",
+        "func": "if (msg.payload.spo2v == 1) {\n    msg.payload = msg.payload.spo2;\n    global.set (\"spo2\", msg.payload);\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 160,
+        "wires": [
+            [
+                "a926cffa320fca84"
+            ]
+        ]
+    },
+    {
+        "id": "a926cffa320fca84",
+        "type": "ui_gauge",
+        "z": "3499b669ec67eaa8",
+        "name": "",
+        "group": "8676cd60bc24459c",
+        "order": 2,
+        "width": "6",
+        "height": "6",
+        "gtype": "wave",
+        "title": "Oxigenación (SpO2)",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 880,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "bcd3ae9b12fd9abf",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8676cd60bc24459c",
+        "type": "ui_group",
+        "name": "Indicadores",
+        "tab": "340e93c36fab9190",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "340e93c36fab9190",
+        "type": "ui_tab",
+        "name": "Oxigenacion + Ritmo Cardiaco",
+        "icon": "dashboard",
+        "order": 10,
+        "disabled": false,
+        "hidden": false
+    }
+]
